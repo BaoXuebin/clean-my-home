@@ -63,7 +63,7 @@
   }
 
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; height: 100%; }
   body {
     background-color: var(--bg);
     background-image: var(--bg-image);
@@ -73,9 +73,11 @@
     font-family: var(--mono);
     font-size: 14px;
     line-height: 1.5;
-    min-height: 100vh;
+    height: 100vh;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
   /* film grain */
   .grain {
@@ -94,7 +96,7 @@
 
   /* ── Top bar ─────────────────────────────────────────────────── */
   .topbar {
-    position: sticky; top: 0; z-index: 20;
+    position: sticky; top: 0; z-index: 20; flex: 0 0 auto;
     display: grid; grid-template-columns: auto 1fr auto;
     align-items: center; gap: 22px;
     padding: 14px clamp(16px, 4vw, 40px);
@@ -157,7 +159,7 @@
 
   /* ── Progress strip ──────────────────────────────────────────── */
   .progress {
-    position: sticky; top: 65px; z-index: 15;
+    position: sticky; top: 65px; z-index: 15; flex: 0 0 auto;
     padding: 8px clamp(16px, 4vw, 40px);
     background: var(--bar-bg); backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--line);
@@ -168,8 +170,8 @@
   .progress-text { font-size: 11px; letter-spacing: 0.8px; color: var(--ink-dim); white-space: nowrap; }
 
   /* ── Layout ──────────────────────────────────────────────────── */
-  .wrap { max-width: 1260px; margin: 0 auto; padding: 26px clamp(16px, 4vw, 40px) 60px; position: relative; z-index: 2; }
-  .grid { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; grid-template-areas: "donut treemap" "bars bars"; gap: 18px; }
+  .wrap { max-width: 1400px; width: 100%; margin: 0 auto; padding: 16px clamp(16px, 4vw, 40px); position: relative; z-index: 2; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+  .grid { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; grid-template-rows: minmax(190px, 34vh) minmax(0, 1fr); grid-template-areas: "donut treemap" "bars bars"; gap: 14px; flex: 1 1 auto; min-height: 0; }
   .donut-card { grid-area: donut; }
   .treemap-card { grid-area: treemap; }
   .bars-card { grid-area: bars; }
@@ -179,9 +181,12 @@
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: var(--rad);
-    padding: 18px;
+    padding: 16px;
     backdrop-filter: blur(8px);
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
   /* HUD corner brackets */
   .card::before, .card::after {
@@ -190,20 +195,20 @@
   }
   .card::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; border-top-left-radius: var(--rad); }
   .card::after { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; border-bottom-right-radius: var(--rad); }
-  .card-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .card-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex: 0 0 auto; }
   .card-t { font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-dim); }
   .card-s { font-size: 10px; letter-spacing: 0.6px; color: var(--ink-mute); }
   .card-t::before { content: "▸ "; color: var(--accent); }
 
   /* donut */
-  .donut-wrap { position: relative; height: 280px; display: grid; place-items: center; }
+  .donut-wrap { position: relative; flex: 1 1 auto; min-height: 0; display: grid; place-items: center; }
   .donut-wrap canvas { width: 100%; height: 100%; }
   .donut-center { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; text-align: center; }
   .dc-num { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.5px; color: var(--ink); }
   .dc-label { font-size: 9.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-mute); margin-top: 4px; }
 
   /* treemap */
-  .treemap-wrap { position: relative; height: 280px; }
+  .treemap-wrap { position: relative; flex: 1 1 auto; min-height: 0; }
   .treemap-wrap canvas { width: 100%; height: 100%; cursor: pointer; }
   .donut-wrap canvas { cursor: pointer; }
 
@@ -224,7 +229,7 @@
   .seg button:hover { color: var(--ink-dim); }
   .seg button.active { color: var(--accent-2); background: rgba(255,138,61,0.1); }
 
-  .bars { display: flex; flex-direction: column; }
+  .bars { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-right: 4px; }
   .bar-row {
     display: grid; grid-template-columns: 26px minmax(110px, 1.1fr) minmax(140px, 1.4fr) auto auto auto;
     align-items: center; gap: 12px; padding: 9px 8px; border-radius: 7px; cursor: pointer;
@@ -244,7 +249,7 @@
   .empty-inline { padding: 24px; text-align: center; color: var(--ink-mute); font-size: 12px; }
 
   /* empty state */
-  .empty { display: grid; place-items: center; min-height: 60vh; text-align: center; }
+  .empty { display: grid; place-items: center; flex: 1 1 auto; min-height: 0; text-align: center; }
   .empty-card { max-width: 420px; }
   .empty-ico { margin-bottom: 16px; color: var(--accent); display: flex; justify-content: center; filter: drop-shadow(0 0 18px rgba(255,138,61,0.35)); }
   .empty-card h2 { font-size: 20px; margin: 0 0 8px; font-weight: 600; letter-spacing: 0.3px; }
@@ -252,9 +257,9 @@
 
   /* footer */
   .foot {
-    max-width: 1260px; margin: 0 auto; padding: 18px clamp(16px, 4vw, 40px) 30px;
+    max-width: 1400px; margin: 0 auto; padding: 10px clamp(16px, 4vw, 40px);
     display: flex; gap: 10px; flex-wrap: wrap; font-size: 10px; letter-spacing: 0.8px;
-    color: var(--ink-mute); text-transform: lowercase; position: relative; z-index: 2;
+    color: var(--ink-mute); text-transform: lowercase; position: relative; z-index: 2; flex: 0 0 auto;
   }
   .foot span:nth-child(even) { color: var(--ink-mute); opacity: 0.5; }
 
@@ -299,9 +304,13 @@
   .tip .t-meta { color: var(--ink-dim); font-variant-numeric: tabular-nums; }
 
   @media (max-width: 820px) {
+    html, body { height: auto; overflow: auto; }
     .topbar { grid-template-columns: 1fr; gap: 12px; }
     .telemetry { justify-content: flex-start; gap: 18px; }
-    .grid { grid-template-columns: 1fr; grid-template-areas: "donut" "treemap" "bars"; }
+    .wrap { flex: none; overflow: visible; }
+    .grid { flex: none; grid-template-columns: 1fr; grid-template-rows: none; grid-template-areas: "donut" "treemap" "bars"; }
+    .donut-wrap, .treemap-wrap { flex: none; height: 260px; }
+    .bars { overflow: visible; flex: none; }
     .bar-row { grid-template-columns: 24px 1fr auto; gap: 9px; }
     .bar-row .bar-track, .bar-row .bar-files { grid-column: 1 / -1; }
     .bar-row .bar-files { text-align: left; }
@@ -353,7 +362,7 @@
         <div class="empty-ico"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></div>
         <h2>No scan yet</h2>
         <p>Measure how much disk space your AI coding agents occupy in your home directory. Everything stays on this machine.</p>
-        <button class="btn primary" id="emptyScanBtn">Run first scan</button>
+        <button class="btn primary" id="emptyScanBtn">Scan now</button>
       </div>
     </section>
 
@@ -754,7 +763,7 @@ setInterval(()=>{ if(model.scannedAt && !scanning){ ui.scannedAgo.textContent=fm
   const data = await fetchJson("/api/data");
   applyData(data);
   connectSSE();
-  if(data.status==="none" && !data.running){ startScan(); }
+  // Scanning is manual: the user clicks Refresh or the empty-state button.
 })();
 </script>
 </body>
