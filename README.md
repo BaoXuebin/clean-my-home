@@ -16,6 +16,7 @@ Install it globally, run one command, and get a beautiful **treemap + donut + ra
 - **Zero runtime dependencies** — only Node's built-ins. Small install, tiny attack surface, works offline.
 - **Cross-platform** — Windows, macOS, Linux.
 - **Light & dark themes** — a warm-paper light mode and warm-carbon dark mode, one-click toggle, remembers your choice (and follows your OS setting at first run).
+- **Bilingual UI (English / 中文)** — switch language from the header (remembered); CLI help and messages auto-follow your system locale. The dictionary is easy to extend with more languages.
 
 ## Install
 

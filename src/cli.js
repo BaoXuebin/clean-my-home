@@ -3,27 +3,10 @@
 import { createServer } from './server.js';
 import { openBrowser } from './openBrowser.js';
 import { VERSION, DEFAULT_PORT } from './version.js';
+import { detectLocale, getStrings } from './i18n.js';
 
-const HELP = `
-  clean-my-home v${VERSION}
-
-  See which AI coding agents are eating your home-directory disk space.
-  Starts a local dashboard in your browser.
-
-  Usage:
-    clean-my-home [options]
-
-  Options:
-    -p, --port <n>        Port to serve on (default ${DEFAULT_PORT}, auto-falls-forward if busy)
-        --no-open         Do not open the browser, just print the URL
-    -c, --concurrency <n> Directory-walk parallelism (default 64)
-        --no-color        (reserved)
-    -v, --version         Print version and exit
-    -h, --help            Show this help
-
-  Everything runs locally on 127.0.0.1; no data leaves your machine.
-  Scan results are cached for 6h at ~/.cache/clean-my-home/cache.json.
-`.trim();
+const i18n = getStrings(detectLocale());
+const HELP = i18n.help(VERSION, DEFAULT_PORT);
 
 export async function run() {
   const args = parseArgs(process.argv.slice(2));
@@ -82,19 +65,19 @@ async function boot(args) {
   try {
     server = await createServer({ concurrency: args.concurrency });
   } catch (err) {
-    process.stderr.write(`Failed to start: ${err.message}\n`);
+    process.stderr.write(i18n.failed(err.message) + '\n');
     process.exit(1);
   }
 
   const port = await listenWithFallback(server, args.port);
 
   server.on('error', (err) => {
-    process.stderr.write(`Server error: ${err.message}\n`);
+    process.stderr.write(i18n.serverErr(err.message) + '\n');
   });
 
   const url = `http://127.0.0.1:${port}`;
-  process.stdout.write(`\n  🏠 clean-my-home v${VERSION}\n`);
-  process.stdout.write(`  Dashboard ready → ${url}\n\n`);
+  process.stdout.write(`\n  clean-my-home v${VERSION}\n`);
+  process.stdout.write(`  ${i18n.ready(url)}\n\n`);
 
   if (args.open) openBrowser(url);
 
@@ -102,7 +85,7 @@ async function boot(args) {
   const shutdown = () => {
     if (closing) return;
     closing = true;
-    process.stdout.write('\n  Shutting down…\n');
+    process.stdout.write('\n  ' + i18n.shutting + '\n');
     try {
       server.close(() => process.exit(0));
     } catch {

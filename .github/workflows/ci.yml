@@ -27,6 +27,7 @@ jobs:
           node --check src/server.js
           node --check src/state.js
           node --check src/openBrowser.js
+          node --check src/i18n.js
           node --check src/version.js
           node --check src/util/format.js
           node --check src/util/paths.js
