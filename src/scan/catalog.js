@@ -1,5 +1,5 @@
 // Built-in catalog of well-known AI coding agents.
-// Each entry: { id, name, vendor, category, emoji, color, paths: { any?, win?, mac?, linux? } }
+// Each entry: { id, name, vendor, category, color, paths: { any?, win?, mac?, linux? } }
 //   - `any`: home-relative path specs (e.g. ".claude").
 //   - platform keys: may use %APPDATA%/%LOCALAPPDATA% (win), ~/Library (mac), ~/.config (linux).
 //   - a single agent may span multiple directories; their sizes are aggregated.
@@ -10,7 +10,6 @@ export const AGENTS = [
     name: 'Claude Code',
     vendor: 'Anthropic',
     category: 'cli',
-    emoji: '🧠',
     color: '#E08A5A',
     paths: { any: ['.claude', '.claude.json'] },
   },
@@ -19,7 +18,6 @@ export const AGENTS = [
     name: 'Codex CLI',
     vendor: 'OpenAI',
     category: 'cli',
-    emoji: '🟢',
     color: '#10A37F',
     paths: { any: ['.codex'] },
   },
@@ -28,7 +26,6 @@ export const AGENTS = [
     name: 'Gemini CLI',
     vendor: 'Google',
     category: 'cli',
-    emoji: '♊',
     color: '#4285F4',
     paths: { any: ['.gemini'] },
   },
@@ -37,7 +34,6 @@ export const AGENTS = [
     name: 'Aider',
     vendor: 'Open Source',
     category: 'cli',
-    emoji: '🤝',
     color: '#22C55E',
     paths: { any: ['.aider'] },
   },
@@ -46,7 +42,6 @@ export const AGENTS = [
     name: 'Kimi',
     vendor: 'Moonshot',
     category: 'cli',
-    emoji: '🌙',
     color: '#6366F1',
     paths: { any: ['.kimi', '.kimi-code'] },
   },
@@ -55,7 +50,6 @@ export const AGENTS = [
     name: 'Qoder',
     vendor: 'Qoder',
     category: 'cli',
-    emoji: '🗂️',
     color: '#F59E0B',
     paths: { any: ['.qoder', '.qoder-cli', '.qoderwork', '.qoderworkcn'] },
   },
@@ -64,7 +58,6 @@ export const AGENTS = [
     name: 'Coze',
     vendor: 'ByteDance',
     category: 'cli',
-    emoji: '🧩',
     color: '#3B82F6',
     paths: { any: ['Coze'] },
   },
@@ -73,7 +66,6 @@ export const AGENTS = [
     name: 'Continue',
     vendor: 'Continue Dev',
     category: 'extension',
-    emoji: '⏵️',
     color: '#7C3AED',
     paths: {
       any: ['.continue'],
@@ -86,7 +78,6 @@ export const AGENTS = [
     name: 'GitHub Copilot',
     vendor: 'GitHub',
     category: 'extension',
-    emoji: '🐙',
     color: '#C77DFF',
     paths: {
       any: ['.copilot'],
@@ -99,7 +90,6 @@ export const AGENTS = [
     name: 'Cursor',
     vendor: 'Anysphere',
     category: 'ide',
-    emoji: '▶️',
     color: '#CBD5E1',
     paths: {
       win: ['%APPDATA%/Cursor'],
@@ -112,7 +102,6 @@ export const AGENTS = [
     name: 'Windsurf',
     vendor: 'Codeium',
     category: 'ide',
-    emoji: '🌊',
     color: '#06B6D4',
     paths: {
       any: ['.codeium', '.windsurf'],
@@ -128,6 +117,5 @@ export const OTHER_META = {
   name: 'Other',
   vendor: 'auto-discovered',
   category: 'other',
-  emoji: '📦',
   color: '#64748B',
 };

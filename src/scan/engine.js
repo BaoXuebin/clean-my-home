@@ -114,7 +114,6 @@ export async function scanAll({ items, concurrency = 64, emit, signal }) {
       type: 'agent-start',
       id: item.id,
       name: item.name,
-      emoji: item.emoji,
       color: item.color,
     });
 
@@ -175,7 +174,6 @@ export async function scanAll({ items, concurrency = 64, emit, signal }) {
       name: item.name,
       vendor: item.vendor,
       category: item.category,
-      emoji: item.emoji,
       color: item.color,
       bytes,
       files,

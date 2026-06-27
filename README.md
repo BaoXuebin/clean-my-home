@@ -1,4 +1,4 @@
-# 🏠 clean-my-home
+# clean-my-home
 
 > See which AI coding agents are eating your home-directory disk space — a local dashboard, not another cloud thing.
 
@@ -6,7 +6,7 @@ Install it globally, run one command, and get a beautiful **treemap + donut + ra
 
 ![dashboard](docs/screenshot.png)
 
-## ✨ Features
+## Features
 
 - **At-a-glance proportions** — a squarified treemap where tile area ∝ bytes, plus a donut and a sortable, searchable ranking.
 - **Knows the usual suspects** — a built-in catalog of well-known agents, each with a name, vendor and color.
@@ -15,8 +15,9 @@ Install it globally, run one command, and get a beautiful **treemap + donut + ra
 - **Safe by design** — never follows symlinks (so Windows junctions like `Application Data` can't loop or double-count), swallows permission errors gracefully, and reports logical bytes.
 - **Zero runtime dependencies** — only Node's built-ins. Small install, tiny attack surface, works offline.
 - **Cross-platform** — Windows, macOS, Linux.
+- **Light & dark themes** — a warm-paper light mode and warm-carbon dark mode, one-click toggle, remembers your choice (and follows your OS setting at first run).
 
-## 📦 Install
+## Install
 
 ```bash
 npm install -g clean-my-home
@@ -30,7 +31,7 @@ clean-my-home
 
 Your browser opens to the dashboard. Press `Ctrl+C` in the terminal to stop.
 
-## 🚀 Usage
+## Usage
 
 ```text
 clean-my-home [options]
@@ -45,7 +46,7 @@ Options:
 
 Scan results are cached at `~/.cache/clean-my-home/cache.json` for 6 hours. Click **Refresh** to force a re-scan anytime.
 
-## 🧠 Supported agents (built-in)
+## Supported agents (built-in)
 
 | Agent | Vendor | Typical paths |
 |---|---|---|
@@ -63,18 +64,18 @@ Scan results are cached at `~/.cache/clean-my-home/cache.json` for 6 hours. Clic
 
 Anything else in your home folder that isn't a known runtime/OS folder (`.gradle`, `.m2`, `.npm`, `AppData`, `Library`, …) shows up under **Other**, expandable per folder.
 
-## 🔧 How it works
+## How it works
 
 1. `clean-my-home` boots a tiny `http` server on `127.0.0.1` and serves a single self-contained HTML dashboard.
 2. It builds a scan plan from the built-in catalog (existing paths only) + auto-discovered "Other" folders.
 3. A concurrency-limited walk (`lstat`, never following symlinks) sums logical bytes per folder, streaming progress to the browser over SSE.
 4. The result is cached to disk so the next launch renders instantly.
 
-## 🔒 Privacy
+## Privacy
 
 100% local. The server binds to `127.0.0.1` only, there are no telemetry calls, no external fonts or CDNs, and the only thing written to disk is your own cache file. Nothing is uploaded anywhere.
 
-## 🧰 Develop
+## Develop
 
 ```bash
 git clone https://github.com/BaoXuebin/clean-my-home
@@ -86,7 +87,7 @@ npm install -g .    # install the local checkout globally
 
 No build step — the dashboard is a single hand-written HTML file.
 
-## 🗑️ Uninstall
+## Uninstall
 
 ```bash
 npm rm -g clean-my-home
