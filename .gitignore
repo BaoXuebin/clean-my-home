@@ -1,0 +1,26 @@
+# dependencies (none yet, but keep for future)
+node_modules/
+
+# local scan cache — never commit user data
+.cache/
+
+# logs
+*.log
+npm-debug.log*
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editors
+.vscode/
+.idea/
+
+# build / coverage
+coverage/
+*.lcov
+
+# env
+.env
+.env.*

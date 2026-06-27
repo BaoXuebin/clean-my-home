@@ -1,0 +1,12 @@
+# Normalize line endings to LF for cross-platform shebangs and diffs.
+# (Important: a CRLF shebang in bin.js breaks `env node` on unix.)
+* text=auto eol=lf
+
+# Force LF on shell/js entry points.
+*.js text eol=lf
+bin.js text eol=lf
+*.sh text eol=lf
+
+# Binary assets
+*.png binary
+*.ico binary

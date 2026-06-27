@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  smoke:
+    name: boot (${{ matrix.os }} / node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['18', '20']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+      - name: Syntax-check sources
+        run: |
+          node --check bin.js
+          node --check src/cli.js
+          node --check src/server.js
+          node --check src/state.js
+          node --check src/openBrowser.js
+          node --check src/version.js
+          node --check src/util/format.js
+          node --check src/util/paths.js
+          node --check src/scan/engine.js
+          node --check src/scan/catalog.js
+          node --check src/scan/discover.js
+          node --check src/scan/cache.js
+          node --check src/scan/plan.js
+      - name: Tests
+        run: npm test
+      - name: Global install + version
+        run: |
+          npm install -g .
+          clean-my-home --version
+      - name: Pack dry-run (files whitelist)
+        run: npm pack --dry-run

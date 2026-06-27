@@ -1,0 +1,50 @@
+{
+  "name": "clean-my-home",
+  "version": "0.1.0",
+  "description": "See which AI coding agents are eating your home-directory disk space — a local dashboard with treemap, donut and ranked bars.",
+  "type": "module",
+  "bin": {
+    "clean-my-home": "bin.js"
+  },
+  "main": "src/cli.js",
+  "exports": {
+    ".": "./src/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin.js",
+    "src",
+    "public",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin.js",
+    "dev": "node --watch bin.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "cli",
+    "disk-usage",
+    "ai",
+    "agents",
+    "claude",
+    "cursor",
+    "codex",
+    "copilot",
+    "dashboard",
+    "treemap"
+  ],
+  "author": "BaoXuebin",
+  "license": "MIT",
+  "homepage": "https://github.com/BaoXuebin/clean-my-home",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BaoXuebin/clean-my-home.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BaoXuebin/clean-my-home/issues"
+  }
+}
