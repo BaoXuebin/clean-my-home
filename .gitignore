@@ -1,6 +1,11 @@
 # dependencies (none yet, but keep for future)
 node_modules/
 
+# stray lockfiles — this package has zero deps and uses npm
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
 # local scan cache — never commit user data
 .cache/
 
