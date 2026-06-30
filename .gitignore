@@ -1,10 +1,15 @@
-# dependencies (none yet, but keep for future)
+# dependencies
 node_modules/
 
-# stray lockfiles — this package has zero deps and uses npm
+# build artifacts
+public/
+backend/dist/
+web/dist/
+*.tsbuildinfo
+
+# lockfiles — npm workspaces; ignore foreign lockfiles
 pnpm-lock.yaml
 yarn.lock
-package-lock.json
 
 # local scan cache — never commit user data
 .cache/

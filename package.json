@@ -6,24 +6,26 @@
   "bin": {
     "clean-my-home": "bin.js"
   },
-  "main": "src/cli.js",
-  "exports": {
-    ".": "./src/cli.js"
-  },
+  "workspaces": [
+    "backend",
+    "web"
+  ],
   "engines": {
     "node": ">=18"
   },
   "files": [
     "bin.js",
-    "src",
+    "backend/dist",
     "public",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
+    "dev": "concurrently -n backend,web \"npm run dev -w backend\" \"npm run dev -w web\"",
+    "build": "npm run build -w web && npm run build -w backend",
     "start": "node bin.js",
-    "dev": "node --watch bin.js",
-    "test": "node --test"
+    "test": "npm run test -w backend",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "cli",
@@ -46,5 +48,8 @@
   },
   "bugs": {
     "url": "https://github.com/BaoXuebin/clean-my-home/issues"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
   }
 }

@@ -4,19 +4,26 @@
 
 Install it globally, run one command, and get a beautiful **treemap + donut + ranked bars** view of how much room Claude Code, Cursor, Codex, Copilot, Continue, Windsurf, Kimi, Qoder and friends are taking up on your machine. Everything runs locally on `127.0.0.1`; no data ever leaves your computer.
 
-![dashboard](docs/screenshot.png)
-
 ## Features
 
 - **At-a-glance proportions** — a squarified treemap where tile area ∝ bytes, plus a donut and a sortable, searchable ranking.
 - **Knows the usual suspects** — a built-in catalog of well-known agents, each with a name, vendor and color.
 - **And discovers the rest** — anything else in your home folder that isn't an obvious runtime/OS folder is auto-detected and grouped under **Other**.
-- **Fast & non-blocking** — a concurrency-limited async walk with **live progress over SSE**. Results are cached for 6h, so restarts are instant; refresh is one click.
+- **Fast & non-blocking** — a concurrency-limited async walk with **live progress over Socket.io**. Results are cached for 6h, so restarts are instant; refresh is one click.
 - **Safe by design** — never follows symlinks (so Windows junctions like `Application Data` can't loop or double-count), swallows permission errors gracefully, and reports logical bytes.
-- **Zero runtime dependencies** — only Node's built-ins. Small install, tiny attack surface, works offline.
 - **Cross-platform** — Windows, macOS, Linux.
 - **Light & dark themes** — a warm-paper light mode and warm-carbon dark mode, one-click toggle, remembers your choice (and follows your OS setting at first run).
-- **Bilingual UI (English / 中文)** — switch language from the header (remembered); CLI help and messages auto-follow your system locale. The dictionary is easy to extend with more languages.
+- **Bilingual UI (English / 中文)** — switch language from the header (remembered); CLI help and messages auto-follow your system locale.
+
+## Architecture
+
+A small monorepo (npm workspaces):
+
+- **`backend/`** — TypeScript server ([Express](https://expressjs.com) + [Socket.io](https://socket.io) + [winston](https://github.com/winstonjs/winston)). Hosts the scan engine, a tiny REST API (`/api/data`, `/api/meta`, `/api/scan`), streams live scan progress over Socket.io, and serves the prebuilt frontend in production.
+- **`web/`** — the dashboard: [React](https://react.dev) + [Vite](https://vitejs.dev) + TypeScript + [Tailwind CSS](https://tailwindcss.com) + shadcn/ui-style primitives. The treemap and donut are hand-drawn on `<canvas>`; state lives in [zustand](https://github.com/pmnd/zustand) + [React Query](https://tanstack.com/query).
+- **`bin.js`** — the CLI entry (`clean-my-home`) that boots the compiled backend, binds `127.0.0.1`, and opens the browser.
+
+The warm-carbon instrument theme is preserved verbatim from the original single-file dashboard (ported into Tailwind CSS variables).
 
 ## Install
 
@@ -67,26 +74,29 @@ Anything else in your home folder that isn't a known runtime/OS folder (`.gradle
 
 ## How it works
 
-1. `clean-my-home` boots a tiny `http` server on `127.0.0.1` and serves a single self-contained HTML dashboard.
+1. `clean-my-home` boots an Express server on `127.0.0.1` and serves the prebuilt React dashboard.
 2. It builds a scan plan from the built-in catalog (existing paths only) + auto-discovered "Other" folders.
-3. A concurrency-limited walk (`lstat`, never following symlinks) sums logical bytes per folder, streaming progress to the browser over SSE.
+3. A concurrency-limited walk (`lstat`, never following symlinks) sums logical bytes per folder, streaming progress to the browser over Socket.io.
 4. The result is cached to disk so the next launch renders instantly.
 
 ## Privacy
 
-100% local. The server binds to `127.0.0.1` only, there are no telemetry calls, no external fonts or CDNs, and the only thing written to disk is your own cache file. Nothing is uploaded anywhere.
+100% local. The server binds to `127.0.0.1` only, there are no telemetry calls, and the only thing written to disk is your own cache file. Nothing is uploaded anywhere.
 
 ## Develop
 
 ```bash
 git clone https://github.com/BaoXuebin/clean-my-home
 cd clean-my-home
-npm test            # node --test
-node bin.js         # run locally without global install
-npm install -g .    # install the local checkout globally
+npm install                 # installs both workspaces (backend, web)
+npm run dev                 # backend (tsx watch, :7865) + web (Vite, :5173, proxies /api + /socket.io)
+npm test                    # backend vitest
+npm run build               # builds web → public/ and backend → backend/dist
+npm start                   # run the compiled app (node bin.js)
+npm install -g .            # install the local checkout globally
 ```
 
-No build step — the dashboard is a single hand-written HTML file.
+In dev, open the Vite URL (`http://localhost:5173`); it proxies API and Socket.io requests to the backend. The published artifact ships only `bin.js`, `backend/dist`, and the prebuilt `public/` — the TypeScript sources and `web/` build tooling are not included.
 
 ## Uninstall
 
